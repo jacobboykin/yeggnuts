@@ -288,7 +288,7 @@ async function handlePause(interaction: ChatInputCommandInteraction, bot: Bot): 
       content: '⏸️ Paused random playback. Use `/yeggnuts resume` to continue.',
     });
   } catch (error) {
-    await interaction.reply({ content: `❌ ${  (error as Error).message}`, flags: 64 });
+    await interaction.reply({ content: `❌ ${(error as Error).message}`, flags: 64 });
   }
 }
 
@@ -305,7 +305,7 @@ async function handleResume(interaction: ChatInputCommandInteraction, bot: Bot):
     bot.resumeSession(interaction.guild.id);
     await interaction.reply({ content: '▶️ Resumed random playback. Let the chaos continue!' });
   } catch (error) {
-    await interaction.reply({ content: `❌ ${  (error as Error).message}`, flags: 64 });
+    await interaction.reply({ content: `❌ ${(error as Error).message}`, flags: 64 });
   }
 }
 
@@ -333,7 +333,7 @@ async function handleFrequency(interaction: ChatInputCommandInteraction, bot: Bo
     bot.updateSessionFrequency(interaction.guild.id, min, max);
     await interaction.reply({ content: `✅ Updated playback frequency to ${min}-${max} minutes.` });
   } catch (error) {
-    await interaction.reply({ content: `❌ ${  (error as Error).message}`, flags: 64 });
+    await interaction.reply({ content: `❌ ${(error as Error).message}`, flags: 64 });
   }
 }
 

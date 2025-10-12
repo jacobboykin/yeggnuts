@@ -48,7 +48,7 @@ export const FrequencyCommand: CommandHandler = {
         content: `✅ Updated playback frequency to ${min}-${max} minutes.`,
       });
     } catch (error) {
-      await interaction.reply({ content: `❌ ${  (error as Error).message}`, ephemeral: true });
+      await interaction.reply({ content: `❌ ${(error as Error).message}`, ephemeral: true });
     }
   },
 };

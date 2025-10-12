@@ -21,7 +21,7 @@ export const ResumeCommand: CommandHandler = {
       bot.resumeSession(interaction.guild.id);
       await interaction.reply({ content: '▶️ Resumed random playback. Let the chaos continue!' });
     } catch (error) {
-      await interaction.reply({ content: `❌ ${  (error as Error).message}`, ephemeral: true });
+      await interaction.reply({ content: `❌ ${(error as Error).message}`, ephemeral: true });
     }
   },
 };

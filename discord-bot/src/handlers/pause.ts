@@ -23,7 +23,7 @@ export const PauseCommand: CommandHandler = {
         content: '⏸️ Paused random playback. Use `/yeggnuts-resume` to continue.',
       });
     } catch (error) {
-      await interaction.reply({ content: `❌ ${  (error as Error).message}`, ephemeral: true });
+      await interaction.reply({ content: `❌ ${(error as Error).message}`, ephemeral: true });
     }
   },
 };
