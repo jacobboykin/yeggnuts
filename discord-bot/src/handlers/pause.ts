@@ -10,15 +10,20 @@ export const PauseCommand: CommandHandler = {
 
   async execute(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
     if (!interaction.guild) {
-      await interaction.reply({ content: '❌ This command can only be used in a server.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ This command can only be used in a server.',
+        ephemeral: true,
+      });
       return;
     }
 
     try {
       bot.pauseSession(interaction.guild.id);
-      await interaction.reply({ content: '⏸️ Paused random playback. Use `/yeggnuts-resume` to continue.' });
+      await interaction.reply({
+        content: '⏸️ Paused random playback. Use `/yeggnuts-resume` to continue.',
+      });
     } catch (error) {
-      await interaction.reply({ content: '❌ ' + (error as Error).message, ephemeral: true });
+      await interaction.reply({ content: `❌ ${  (error as Error).message}`, ephemeral: true });
     }
   },
 };

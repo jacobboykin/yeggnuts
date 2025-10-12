@@ -1,4 +1,10 @@
-import { loadConfig, getCooldownDuration, getMaxPlaybackInterval, getMinPlaybackInterval, getRefreshInterval } from '../src/config/config';
+import {
+  loadConfig,
+  getCooldownDuration,
+  getMaxPlaybackInterval,
+  getMinPlaybackInterval,
+  getRefreshInterval,
+} from '../src/config/config';
 import * as fs from 'fs';
 
 describe('config', () => {

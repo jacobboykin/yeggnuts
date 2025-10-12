@@ -27,7 +27,7 @@ describe('SoundboardClient rate limit handling', () => {
       .mockResolvedValueOnce({
         ok: true,
         status: 200,
-        json: async () => ([]),
+        json: async () => [],
       } as any);
 
     const p = client.getSounds(guildId);

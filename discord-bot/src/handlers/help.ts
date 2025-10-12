@@ -10,7 +10,9 @@ export const HelpCommand: CommandHandler = {
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const embed = new EmbedBuilder()
       .setTitle('Yeggnuts Bot Help')
-      .setDescription('A bot that randomly plays sounds from your server\'s soundboard at unpredictable intervals.')
+      .setDescription(
+        "A bot that randomly plays sounds from your server's soundboard at unpredictable intervals."
+      )
       .setColor(0x5865f2)
       .addFields(
         {
@@ -34,11 +36,13 @@ export const HelpCommand: CommandHandler = {
         },
         {
           name: 'Notes',
-          value: 'Legacy top-level commands (e.g., `/yeggnuts-play`) still exist for now, but the new `/yeggnuts soundboard-goof ...` path is preferred.',
+          value:
+            'Legacy top-level commands (e.g., `/yeggnuts-play`) still exist for now, but the new `/yeggnuts soundboard-goof ...` path is preferred.',
         },
         {
           name: 'How It Works',
-          value: 'The bot joins your voice channel and plays random sounds from your server\'s soundboard at intervals you configure. Perfect for adding some chaos to voice chats!',
+          value:
+            "The bot joins your voice channel and plays random sounds from your server's soundboard at intervals you configure. Perfect for adding some chaos to voice chats!",
         }
       )
       .setFooter({ text: 'Elevated permissions = Administrator or DJ role' });

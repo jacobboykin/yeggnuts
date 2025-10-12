@@ -2,13 +2,14 @@ import { CommandRegistry } from '../src/commands/registry';
 import { CommandHandler } from '../src/commands/handler';
 
 describe('CommandRegistry', () => {
-  const makeInteraction = (name: string) => ({
-    commandName: name,
-    replied: false,
-    deferred: false,
-    reply: jest.fn().mockResolvedValue(undefined),
-    followUp: jest.fn().mockResolvedValue(undefined),
-  }) as any;
+  const makeInteraction = (name: string) =>
+    ({
+      commandName: name,
+      replied: false,
+      deferred: false,
+      reply: jest.fn().mockResolvedValue(undefined),
+      followUp: jest.fn().mockResolvedValue(undefined),
+    }) as any;
 
   const bot = {
     hasElevatedPermissions: jest.fn().mockReturnValue(false),
@@ -51,4 +52,3 @@ describe('CommandRegistry', () => {
     expect(handler.execute).toHaveBeenCalled();
   });
 });
-

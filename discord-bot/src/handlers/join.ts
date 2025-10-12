@@ -10,7 +10,10 @@ export const JoinCommand: CommandHandler = {
 
   async execute(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
     if (!interaction.guild) {
-      await interaction.reply({ content: '❌ This command can only be used in a server.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ This command can only be used in a server.',
+        ephemeral: true,
+      });
       return;
     }
 
@@ -18,14 +21,20 @@ export const JoinCommand: CommandHandler = {
     const voiceChannel = member.voice.channel;
 
     if (!voiceChannel) {
-      await interaction.reply({ content: '❌ You need to be in a voice channel first!', ephemeral: true });
+      await interaction.reply({
+        content: '❌ You need to be in a voice channel first!',
+        ephemeral: true,
+      });
       return;
     }
 
     // Check if already in a voice channel
     const existingSession = bot.getVoiceSession(interaction.guild.id);
     if (existingSession) {
-      await interaction.reply({ content: '❌ Already in a voice channel! Use `/yeggnuts soundboard-goof leave` first.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ Already in a voice channel! Use `/yeggnuts soundboard-goof leave` first.',
+        ephemeral: true,
+      });
       return;
     }
 
@@ -47,7 +56,10 @@ export const JoinCommand: CommandHandler = {
       });
     } catch (error) {
       console.error('Failed to join voice channel:', error);
-      await interaction.reply({ content: '❌ Failed to join voice channel. Check bot permissions.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ Failed to join voice channel. Check bot permissions.',
+        ephemeral: true,
+      });
     }
   },
 };

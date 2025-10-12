@@ -17,9 +17,7 @@ export const YeggnutsCommand: CommandHandler = {
         .setDescription('Join your voice channel and start playing random sounds')
     )
     .addSubcommand((subcommand) =>
-      subcommand
-        .setName('leave')
-        .setDescription('Leave the voice channel')
+      subcommand.setName('leave').setDescription('Leave the voice channel')
     )
     .addSubcommand((subcommand) =>
       subcommand
@@ -33,19 +31,13 @@ export const YeggnutsCommand: CommandHandler = {
         )
     )
     .addSubcommand((subcommand) =>
-      subcommand
-        .setName('sounds')
-        .setDescription('List all available soundboard sounds')
+      subcommand.setName('sounds').setDescription('List all available soundboard sounds')
     )
     .addSubcommand((subcommand) =>
-      subcommand
-        .setName('pause')
-        .setDescription('Pause random sound playback')
+      subcommand.setName('pause').setDescription('Pause random sound playback')
     )
     .addSubcommand((subcommand) =>
-      subcommand
-        .setName('resume')
-        .setDescription('Resume random sound playback')
+      subcommand.setName('resume').setDescription('Resume random sound playback')
     )
     .addSubcommand((subcommand) =>
       subcommand
@@ -67,14 +59,10 @@ export const YeggnutsCommand: CommandHandler = {
         )
     )
     .addSubcommand((subcommand) =>
-      subcommand
-        .setName('status')
-        .setDescription('Show bot status and statistics')
+      subcommand.setName('status').setDescription('Show bot status and statistics')
     )
     .addSubcommand((subcommand) =>
-      subcommand
-        .setName('help')
-        .setDescription('Show help information about the bot')
+      subcommand.setName('help').setDescription('Show help information about the bot')
     ),
   requiresElevated: false, // We'll check per-subcommand
 
@@ -128,7 +116,10 @@ export const YeggnutsCommand: CommandHandler = {
 // Handler functions
 async function handleJoin(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
   if (!interaction.guild) {
-    await interaction.reply({ content: '❌ This command can only be used in a server.', flags: 64 });
+    await interaction.reply({
+      content: '❌ This command can only be used in a server.',
+      flags: 64,
+    });
     return;
   }
 
@@ -142,7 +133,10 @@ async function handleJoin(interaction: ChatInputCommandInteraction, bot: Bot): P
 
   const existingSession = bot.getVoiceSession(interaction.guild.id);
   if (existingSession) {
-    await interaction.reply({ content: '❌ Already in a voice channel! Use `/yeggnuts leave` first.', flags: 64 });
+    await interaction.reply({
+      content: '❌ Already in a voice channel! Use `/yeggnuts leave` first.',
+      flags: 64,
+    });
     return;
   }
 
@@ -159,13 +153,19 @@ async function handleJoin(interaction: ChatInputCommandInteraction, bot: Bot): P
     });
   } catch (error) {
     console.error('Failed to join voice channel:', error);
-    await interaction.reply({ content: '❌ Failed to join voice channel. Check bot permissions.', flags: 64 });
+    await interaction.reply({
+      content: '❌ Failed to join voice channel. Check bot permissions.',
+      flags: 64,
+    });
   }
 }
 
 async function handleLeave(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
   if (!interaction.guild) {
-    await interaction.reply({ content: '❌ This command can only be used in a server.', flags: 64 });
+    await interaction.reply({
+      content: '❌ This command can only be used in a server.',
+      flags: 64,
+    });
     return;
   }
 
@@ -181,13 +181,19 @@ async function handleLeave(interaction: ChatInputCommandInteraction, bot: Bot): 
 
 async function handlePlay(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
   if (!interaction.guild) {
-    await interaction.reply({ content: '❌ This command can only be used in a server.', flags: 64 });
+    await interaction.reply({
+      content: '❌ This command can only be used in a server.',
+      flags: 64,
+    });
     return;
   }
 
   const session = bot.getVoiceSession(interaction.guild.id);
   if (!session) {
-    await interaction.reply({ content: '❌ Not in a voice channel. Use `/yeggnuts join` first.', flags: 64 });
+    await interaction.reply({
+      content: '❌ Not in a voice channel. Use `/yeggnuts join` first.',
+      flags: 64,
+    });
     return;
   }
 
@@ -198,7 +204,10 @@ async function handlePlay(interaction: ChatInputCommandInteraction, bot: Bot): P
     if (soundName) {
       sound = bot.soundboard.findSound(interaction.guild.id, soundName);
       if (!sound) {
-        await interaction.reply({ content: `❌ Sound "${soundName}" not found. Use \`/yeggnuts sounds\` to see available sounds.`, flags: 64 });
+        await interaction.reply({
+          content: `❌ Sound "${soundName}" not found. Use \`/yeggnuts sounds\` to see available sounds.`,
+          flags: 64,
+        });
         return;
       }
     } else {
@@ -219,7 +228,10 @@ async function handlePlay(interaction: ChatInputCommandInteraction, bot: Bot): P
 
 async function handleSounds(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
   if (!interaction.guild) {
-    await interaction.reply({ content: '❌ This command can only be used in a server.', flags: 64 });
+    await interaction.reply({
+      content: '❌ This command can only be used in a server.',
+      flags: 64,
+    });
     return;
   }
 
@@ -228,11 +240,14 @@ async function handleSounds(interaction: ChatInputCommandInteraction, bot: Bot):
     const sounds = bot.soundboard.getCachedSounds(interaction.guild.id);
 
     if (!sounds || sounds.length === 0) {
-      await interaction.reply({ content: '❌ No sounds available in this server. Add some in Server Settings → Soundboard!', flags: 64 });
+      await interaction.reply({
+        content: '❌ No sounds available in this server. Add some in Server Settings → Soundboard!',
+        flags: 64,
+      });
       return;
     }
 
-    const available = sounds.filter(s => s.available);
+    const available = sounds.filter((s) => s.available);
     if (available.length === 0) {
       await interaction.reply({ content: '❌ No available sounds in this server.', flags: 64 });
       return;
@@ -260,21 +275,29 @@ async function handleSounds(interaction: ChatInputCommandInteraction, bot: Bot):
 
 async function handlePause(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
   if (!interaction.guild) {
-    await interaction.reply({ content: '❌ This command can only be used in a server.', flags: 64 });
+    await interaction.reply({
+      content: '❌ This command can only be used in a server.',
+      flags: 64,
+    });
     return;
   }
 
   try {
     bot.pauseSession(interaction.guild.id);
-    await interaction.reply({ content: '⏸️ Paused random playback. Use `/yeggnuts resume` to continue.' });
+    await interaction.reply({
+      content: '⏸️ Paused random playback. Use `/yeggnuts resume` to continue.',
+    });
   } catch (error) {
-    await interaction.reply({ content: '❌ ' + (error as Error).message, flags: 64 });
+    await interaction.reply({ content: `❌ ${  (error as Error).message}`, flags: 64 });
   }
 }
 
 async function handleResume(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
   if (!interaction.guild) {
-    await interaction.reply({ content: '❌ This command can only be used in a server.', flags: 64 });
+    await interaction.reply({
+      content: '❌ This command can only be used in a server.',
+      flags: 64,
+    });
     return;
   }
 
@@ -282,13 +305,16 @@ async function handleResume(interaction: ChatInputCommandInteraction, bot: Bot):
     bot.resumeSession(interaction.guild.id);
     await interaction.reply({ content: '▶️ Resumed random playback. Let the chaos continue!' });
   } catch (error) {
-    await interaction.reply({ content: '❌ ' + (error as Error).message, flags: 64 });
+    await interaction.reply({ content: `❌ ${  (error as Error).message}`, flags: 64 });
   }
 }
 
 async function handleFrequency(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
   if (!interaction.guild) {
-    await interaction.reply({ content: '❌ This command can only be used in a server.', flags: 64 });
+    await interaction.reply({
+      content: '❌ This command can only be used in a server.',
+      flags: 64,
+    });
     return;
   }
 
@@ -296,7 +322,10 @@ async function handleFrequency(interaction: ChatInputCommandInteraction, bot: Bo
   const max = interaction.options.getInteger('max', true);
 
   if (min > max) {
-    await interaction.reply({ content: '❌ Minimum interval must be less than or equal to maximum interval.', flags: 64 });
+    await interaction.reply({
+      content: '❌ Minimum interval must be less than or equal to maximum interval.',
+      flags: 64,
+    });
     return;
   }
 
@@ -304,13 +333,16 @@ async function handleFrequency(interaction: ChatInputCommandInteraction, bot: Bo
     bot.updateSessionFrequency(interaction.guild.id, min, max);
     await interaction.reply({ content: `✅ Updated playback frequency to ${min}-${max} minutes.` });
   } catch (error) {
-    await interaction.reply({ content: '❌ ' + (error as Error).message, flags: 64 });
+    await interaction.reply({ content: `❌ ${  (error as Error).message}`, flags: 64 });
   }
 }
 
 async function handleStatus(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
   if (!interaction.guild) {
-    await interaction.reply({ content: '❌ This command can only be used in a server.', flags: 64 });
+    await interaction.reply({
+      content: '❌ This command can only be used in a server.',
+      flags: 64,
+    });
     return;
   }
 
@@ -352,7 +384,9 @@ async function handleStatus(interaction: ChatInputCommandInteraction, bot: Bot):
 async function handleHelp(interaction: ChatInputCommandInteraction): Promise<void> {
   const embed = new EmbedBuilder()
     .setTitle('Yeggnuts Bot Help')
-    .setDescription('A bot that randomly plays sounds from your server\'s soundboard at unpredictable intervals.')
+    .setDescription(
+      "A bot that randomly plays sounds from your server's soundboard at unpredictable intervals."
+    )
     .setColor(0x5865f2)
     .addFields(
       {
@@ -376,7 +410,8 @@ async function handleHelp(interaction: ChatInputCommandInteraction): Promise<voi
       },
       {
         name: 'How It Works',
-        value: 'The bot joins your voice channel and plays random sounds from your server\'s soundboard at intervals you configure. Perfect for adding some chaos to voice chats!',
+        value:
+          "The bot joins your voice channel and plays random sounds from your server's soundboard at intervals you configure. Perfect for adding some chaos to voice chats!",
       }
     )
     .setFooter({ text: 'Elevated permissions = Administrator or DJ role' });

@@ -1,24 +1,30 @@
 import { PlayCommand } from '../src/handlers/play';
 
 describe('PlayCommand', () => {
-  const makeInteraction = (opts: Partial<any> = {}) => ({
-    guild: Object.prototype.hasOwnProperty.call(opts, 'guild') ? opts.guild : { id: 'g1' },
-    options: {
-      getString: jest.fn().mockReturnValue(opts.soundName ?? null),
-    },
-    reply: jest.fn().mockResolvedValue(undefined),
-  }) as any;
+  const makeInteraction = (opts: Partial<any> = {}) =>
+    ({
+      guild: Object.prototype.hasOwnProperty.call(opts, 'guild') ? opts.guild : { id: 'g1' },
+      options: {
+        getString: jest.fn().mockReturnValue(opts.soundName ?? null),
+      },
+      reply: jest.fn().mockResolvedValue(undefined),
+    }) as any;
 
-  const makeBot = (overrides: Partial<any> = {}) => ({
-    getVoiceSession: jest.fn().mockReturnValue(
-      Object.prototype.hasOwnProperty.call(overrides, 'session') ? overrides.session : { channelId: 'c1' }
-    ),
-    soundboard: {
-      findSound: jest.fn().mockReturnValue(overrides.sound ?? { sound_id: 's1', name: 'beep' }),
-      getRandomSound: jest.fn().mockResolvedValue({ sound_id: 'r1', name: 'rand' }),
-      playSound: jest.fn().mockResolvedValue(undefined),
-    },
-  }) as any;
+  const makeBot = (overrides: Partial<any> = {}) =>
+    ({
+      getVoiceSession: jest
+        .fn()
+        .mockReturnValue(
+          Object.prototype.hasOwnProperty.call(overrides, 'session')
+            ? overrides.session
+            : { channelId: 'c1' }
+        ),
+      soundboard: {
+        findSound: jest.fn().mockReturnValue(overrides.sound ?? { sound_id: 's1', name: 'beep' }),
+        getRandomSound: jest.fn().mockResolvedValue({ sound_id: 'r1', name: 'rand' }),
+        playSound: jest.fn().mockResolvedValue(undefined),
+      },
+    }) as any;
 
   test('rejects in DMs', async () => {
     const interaction = makeInteraction({ guild: null });

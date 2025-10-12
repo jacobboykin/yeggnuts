@@ -25,11 +25,7 @@ export const YeggnutsCommand: CommandHandler = {
             .setName('join')
             .setDescription('Join your voice channel and start playing random sounds')
         )
-        .addSubcommand((sub) =>
-          sub
-            .setName('leave')
-            .setDescription('Leave the voice channel')
-        )
+        .addSubcommand((sub) => sub.setName('leave').setDescription('Leave the voice channel'))
         .addSubcommand((sub) =>
           sub
             .setName('play')
@@ -42,19 +38,11 @@ export const YeggnutsCommand: CommandHandler = {
             )
         )
         .addSubcommand((sub) =>
-          sub
-            .setName('sounds')
-            .setDescription('List all available soundboard sounds')
+          sub.setName('sounds').setDescription('List all available soundboard sounds')
         )
+        .addSubcommand((sub) => sub.setName('pause').setDescription('Pause random sound playback'))
         .addSubcommand((sub) =>
-          sub
-            .setName('pause')
-            .setDescription('Pause random sound playback')
-        )
-        .addSubcommand((sub) =>
-          sub
-            .setName('resume')
-            .setDescription('Resume random sound playback')
+          sub.setName('resume').setDescription('Resume random sound playback')
         )
         .addSubcommand((sub) =>
           sub
@@ -76,14 +64,10 @@ export const YeggnutsCommand: CommandHandler = {
             )
         )
         .addSubcommand((sub) =>
-          sub
-            .setName('status')
-            .setDescription('Show bot status and statistics')
+          sub.setName('status').setDescription('Show bot status and statistics')
         )
         .addSubcommand((sub) =>
-          sub
-            .setName('help')
-            .setDescription('Show help information about the bot')
+          sub.setName('help').setDescription('Show help information about the bot')
         )
     ),
   requiresElevated: false,
@@ -94,14 +78,20 @@ export const YeggnutsCommand: CommandHandler = {
     const sub = interaction.options.getSubcommand(false);
 
     if (group !== 'soundboard-goof' || !sub) {
-      await interaction.reply({ content: '❌ Unknown subcommand. Try `/yeggnuts soundboard-goof help`.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ Unknown subcommand. Try `/yeggnuts soundboard-goof help`.',
+        ephemeral: true,
+      });
       return;
     }
 
     // Map of subcommands requiring elevated permissions
     const elevatedSubs = new Set<string>(['leave', 'pause', 'resume', 'frequency']);
     if (elevatedSubs.has(sub) && !bot.hasElevatedPermissions(interaction)) {
-      await interaction.reply({ content: '❌ You need elevated permissions to use this command.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ You need elevated permissions to use this command.',
+        ephemeral: true,
+      });
       return;
     }
 
@@ -139,4 +129,3 @@ export const YeggnutsCommand: CommandHandler = {
     }
   },
 };
-

@@ -46,7 +46,8 @@ export class SoundboardClient {
             this.globalBackoffUntil = Date.now() + retryAfterMs;
           }
         } catch {
-          const header = response.headers.get('retry-after') || response.headers.get('x-ratelimit-reset-after');
+          const header =
+            response.headers.get('retry-after') || response.headers.get('x-ratelimit-reset-after');
           if (header) retryAfterMs = Math.ceil(parseFloat(header) * 1000);
         }
 
@@ -84,7 +85,7 @@ export class SoundboardClient {
     }
 
     // Filter out unavailable sounds
-    const available = sounds.filter(s => s.available);
+    const available = sounds.filter((s) => s.available);
     if (available.length === 0) {
       throw new Error('No available sounds in this server');
     }
@@ -101,12 +102,12 @@ export class SoundboardClient {
     }
 
     // Try exact match first
-    let sound = sounds.find(s => s.name === name && s.available);
+    let sound = sounds.find((s) => s.name === name && s.available);
     if (sound) return sound;
 
     // Try case-insensitive match
     const nameLower = name.toLowerCase();
-    sound = sounds.find(s => s.name.toLowerCase() === nameLower && s.available);
+    sound = sounds.find((s) => s.name.toLowerCase() === nameLower && s.available);
     return sound;
   }
 

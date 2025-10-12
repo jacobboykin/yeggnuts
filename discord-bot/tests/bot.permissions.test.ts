@@ -11,13 +11,16 @@ const baseConfig: BotConfig = {
 describe('Bot.hasElevatedPermissions', () => {
   const bot = new Bot(baseConfig);
 
-  const makeInteraction = (overrides: Partial<any> = {}) => ({
-    guild: overrides.guild ?? { id: 'g1' },
-    member: {
-      permissions: { has: (_p: string) => Boolean(overrides.admin) },
-      roles: { cache: { some: (fn: (r: any) => boolean) => fn({ name: overrides.role ?? 'User' }) } },
-    },
-  }) as any;
+  const makeInteraction = (overrides: Partial<any> = {}) =>
+    ({
+      guild: overrides.guild ?? { id: 'g1' },
+      member: {
+        permissions: { has: (_p: string) => Boolean(overrides.admin) },
+        roles: {
+          cache: { some: (fn: (r: any) => boolean) => fn({ name: overrides.role ?? 'User' }) },
+        },
+      },
+    }) as any;
 
   test('returns false when not in guild', () => {
     expect(bot.hasElevatedPermissions(makeInteraction({ guild: null }))).toBe(false);

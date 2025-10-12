@@ -10,7 +10,10 @@ export const LeaveCommand: CommandHandler = {
 
   async execute(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
     if (!interaction.guild) {
-      await interaction.reply({ content: '❌ This command can only be used in a server.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ This command can only be used in a server.',
+        ephemeral: true,
+      });
       return;
     }
 

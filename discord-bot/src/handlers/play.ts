@@ -16,13 +16,19 @@ export const PlayCommand: CommandHandler = {
 
   async execute(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
     if (!interaction.guild) {
-      await interaction.reply({ content: '❌ This command can only be used in a server.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ This command can only be used in a server.',
+        ephemeral: true,
+      });
       return;
     }
 
     const session = bot.getVoiceSession(interaction.guild.id);
     if (!session) {
-      await interaction.reply({ content: '❌ Not in a voice channel. Use `/yeggnuts soundboard-goof join` first.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ Not in a voice channel. Use `/yeggnuts soundboard-goof join` first.',
+        ephemeral: true,
+      });
       return;
     }
 
@@ -34,7 +40,10 @@ export const PlayCommand: CommandHandler = {
         // Play specific sound
         sound = bot.soundboard.findSound(interaction.guild.id, soundName);
         if (!sound) {
-          await interaction.reply({ content: `❌ Sound "${soundName}" not found. Use \`/yeggnuts soundboard-goof sounds\` to see available sounds.`, ephemeral: true });
+          await interaction.reply({
+            content: `❌ Sound "${soundName}" not found. Use \`/yeggnuts soundboard-goof sounds\` to see available sounds.`,
+            ephemeral: true,
+          });
           return;
         }
       } else {
@@ -50,7 +59,10 @@ export const PlayCommand: CommandHandler = {
       await interaction.reply({ content: `🔊 Playing: **${sound.name}**` });
     } catch (error) {
       console.error('Failed to play sound:', error);
-      await interaction.reply({ content: '❌ Failed to play sound. Try again later.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ Failed to play sound. Try again later.',
+        ephemeral: true,
+      });
     }
   },
 };

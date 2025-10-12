@@ -2,17 +2,20 @@ import { PauseCommand } from '../src/handlers/pause';
 import { ResumeCommand } from '../src/handlers/resume';
 import { FrequencyCommand } from '../src/handlers/frequency';
 
-const makeInteraction = (overrides: Partial<any> = {}) => ({
-  guild: Object.prototype.hasOwnProperty.call(overrides, 'guild') ? overrides.guild : { id: 'g1' },
-  options: {
-    getInteger: jest.fn((name: string) => {
-      if (name === 'min') return overrides.min ?? 5;
-      if (name === 'max') return overrides.max ?? 10;
-      return null;
-    }),
-  },
-  reply: jest.fn().mockResolvedValue(undefined),
-}) as any;
+const makeInteraction = (overrides: Partial<any> = {}) =>
+  ({
+    guild: Object.prototype.hasOwnProperty.call(overrides, 'guild')
+      ? overrides.guild
+      : { id: 'g1' },
+    options: {
+      getInteger: jest.fn((name: string) => {
+        if (name === 'min') return overrides.min ?? 5;
+        if (name === 'max') return overrides.max ?? 10;
+        return null;
+      }),
+    },
+    reply: jest.fn().mockResolvedValue(undefined),
+  }) as any;
 
 describe('Pause/Resume/Frequency commands', () => {
   const bot = {
@@ -51,4 +54,3 @@ describe('Pause/Resume/Frequency commands', () => {
     expect(bot.updateSessionFrequency).toHaveBeenCalledWith('g1', 5, 6);
   });
 });
-

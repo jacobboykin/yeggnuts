@@ -73,7 +73,8 @@ function normalizeConfigFile(raw: any): Partial<BotConfig> {
 
   // soundboard
   if (raw.soundboard) {
-    const refresh = raw.soundboard.refreshIntervalMinutes ?? raw.soundboard.refresh_interval_minutes;
+    const refresh =
+      raw.soundboard.refreshIntervalMinutes ?? raw.soundboard.refresh_interval_minutes;
     const cache = raw.soundboard.cacheSounds ?? raw.soundboard.cache_sounds;
     out.soundboard = {
       refreshIntervalMinutes: refresh,

@@ -24,7 +24,10 @@ export const FrequencyCommand: CommandHandler = {
 
   async execute(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
     if (!interaction.guild) {
-      await interaction.reply({ content: '❌ This command can only be used in a server.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ This command can only be used in a server.',
+        ephemeral: true,
+      });
       return;
     }
 
@@ -32,15 +35,20 @@ export const FrequencyCommand: CommandHandler = {
     const max = interaction.options.getInteger('max', true);
 
     if (min > max) {
-      await interaction.reply({ content: '❌ Minimum interval must be less than or equal to maximum interval.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ Minimum interval must be less than or equal to maximum interval.',
+        ephemeral: true,
+      });
       return;
     }
 
     try {
       bot.updateSessionFrequency(interaction.guild.id, min, max);
-      await interaction.reply({ content: `✅ Updated playback frequency to ${min}-${max} minutes.` });
+      await interaction.reply({
+        content: `✅ Updated playback frequency to ${min}-${max} minutes.`,
+      });
     } catch (error) {
-      await interaction.reply({ content: '❌ ' + (error as Error).message, ephemeral: true });
+      await interaction.reply({ content: `❌ ${  (error as Error).message}`, ephemeral: true });
     }
   },
 };

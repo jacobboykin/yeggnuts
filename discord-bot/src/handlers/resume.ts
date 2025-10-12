@@ -10,7 +10,10 @@ export const ResumeCommand: CommandHandler = {
 
   async execute(interaction: ChatInputCommandInteraction, bot: Bot): Promise<void> {
     if (!interaction.guild) {
-      await interaction.reply({ content: '❌ This command can only be used in a server.', ephemeral: true });
+      await interaction.reply({
+        content: '❌ This command can only be used in a server.',
+        ephemeral: true,
+      });
       return;
     }
 
@@ -18,7 +21,7 @@ export const ResumeCommand: CommandHandler = {
       bot.resumeSession(interaction.guild.id);
       await interaction.reply({ content: '▶️ Resumed random playback. Let the chaos continue!' });
     } catch (error) {
-      await interaction.reply({ content: '❌ ' + (error as Error).message, ephemeral: true });
+      await interaction.reply({ content: `❌ ${  (error as Error).message}`, ephemeral: true });
     }
   },
 };

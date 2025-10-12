@@ -18,9 +18,7 @@ export class CommandRegistry {
   async registerWithDiscord(token: string, applicationId: string, guildId?: string): Promise<void> {
     const rest = new REST({ version: '10' }).setToken(token);
 
-    const commandData = Array.from(this.commands.values()).map((handler) =>
-      handler.data.toJSON()
-    );
+    const commandData = Array.from(this.commands.values()).map((handler) => handler.data.toJSON());
 
     try {
       console.log('Registering slash commands with Discord...');
