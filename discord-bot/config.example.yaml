@@ -1,0 +1,36 @@
+# Example configuration for yeggnuts Discord bot
+# Copy this to config.yaml and customize as needed
+# Environment variables override file values
+
+discord:
+  # Bot token from Discord Developer Portal
+  # Can be set via DISCORD_BOT_TOKEN environment variable
+  token: ${DISCORD_BOT_TOKEN}
+
+  # Application ID from Discord Developer Portal
+  # Can be set via DISCORD_APPLICATION_ID environment variable
+  application_id: ${DISCORD_APPLICATION_ID}
+
+soundboard:
+  # How often to refresh the soundboard cache from Discord's API (minutes)
+  refresh_interval_minutes: 10
+
+  # Whether to cache soundboard sounds in memory
+  cache_sounds: true
+
+playback:
+  # Default minimum interval between random sounds (minutes)
+  default_min_interval_minutes: 10
+
+  # Default maximum interval between random sounds (minutes)
+  default_max_interval_minutes: 30
+
+  # Cooldown between manual sound triggers (seconds)
+  cooldown_seconds: 5
+
+permissions:
+  # Roles that can use control commands (pause, resume, frequency, leave)
+  # These are in addition to Discord's native slash command permissions
+  control_commands_roles:
+    - "Administrator"
+    - "DJ"
