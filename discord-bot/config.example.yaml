@@ -20,10 +20,10 @@ soundboard:
 
 playback:
   # Default minimum interval between random sounds (minutes)
-  default_min_interval_minutes: 10
+  default_min_interval_minutes: 1
 
   # Default maximum interval between random sounds (minutes)
-  default_max_interval_minutes: 30
+  default_max_interval_minutes: 2
 
   # Cooldown between manual sound triggers (seconds)
   cooldown_seconds: 5

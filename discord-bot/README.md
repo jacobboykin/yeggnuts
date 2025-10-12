@@ -1,6 +1,6 @@
 # Yeggnuts Discord Soundboard Bot
 
-A Discord bot written in Go that randomly plays sounds from your server's soundboard at unpredictable intervals. Perfect for adding some chaos and entertainment to your voice chats with friends!
+A Discord bot written in TypeScript/Node.js that randomly plays sounds from your server's soundboard at unpredictable intervals. Perfect for adding some chaos and entertainment to your voice chats with friends!
 
 ## Features
 
@@ -13,7 +13,7 @@ A Discord bot written in Go that randomly plays sounds from your server's soundb
 
 ## Architecture
 
-The bot uses Discord's native Soundboard API, so:
+The bot uses Discord's native Soundboard API via discord.js, so:
 - ✅ No audio files to manage
 - ✅ Server admins control sounds through Discord's UI
 - ✅ Simpler deployment
@@ -113,21 +113,19 @@ npm start -- --guild YOUR_GUILD_ID
 
 ### Commands
 
-All commands use the `/yeggnuts` prefix:
+Use the grouped path: `/yeggnuts soundboard-goof ...`
 
-| Command | Description | Permissions |
-|---------|-------------|-------------|
-| `/yeggnuts-join` | Join your voice channel and start playing random sounds | Everyone |
-| `/yeggnuts-leave` | Leave the voice channel | Elevated |
-| `/yeggnuts-play [sound]` | Play a random sound or specify a sound name | Everyone |
-| `/yeggnuts-sounds` | List all available soundboard sounds | Everyone |
-| `/yeggnuts-pause` | Pause random playback | Elevated |
-| `/yeggnuts-resume` | Resume random playback | Elevated |
-| `/yeggnuts-frequency <min> <max>` | Set playback interval (minutes) | Elevated |
-| `/yeggnuts-status` | Show bot status and statistics | Everyone |
-| `/yeggnuts-help` | Show help information | Everyone |
+- `/yeggnuts soundboard-goof join`
+- `/yeggnuts soundboard-goof leave` (elevated)
+- `/yeggnuts soundboard-goof play [sound]`
+- `/yeggnuts soundboard-goof sounds`
+- `/yeggnuts soundboard-goof pause` (elevated)
+- `/yeggnuts soundboard-goof resume` (elevated)
+- `/yeggnuts soundboard-goof frequency <min> <max>` (elevated)
+- `/yeggnuts soundboard-goof status`
+- `/yeggnuts soundboard-goof help`
 
-**Elevated permissions** = Server administrators or users with the "DJ" role (configurable in `config.yaml`)
+Elevated permissions = Server administrators or users with the configured role(s) (default includes "DJ").
 
 ### Example Workflow
 
@@ -147,22 +145,26 @@ All commands use the `/yeggnuts` prefix:
 
 ```yaml
 discord:
-  token: ${DISCORD_BOT_TOKEN}           # Required
-  application_id: ${DISCORD_APPLICATION_ID}  # Required
+  token: ${DISCORD_BOT_TOKEN}                 # Required
+  application_id: ${DISCORD_APPLICATION_ID}   # Required
 
 soundboard:
-  refresh_interval_minutes: 10          # How often to refresh sound cache
-  cache_sounds: true                    # Cache sounds in memory
+  refresh_interval_minutes: 10                # How often to refresh sound cache (min 1)
+  cache_sounds: true                          # Cache sounds in memory
 
 playback:
-  default_min_interval_minutes: 10      # Min time between random sounds
-  default_max_interval_minutes: 30      # Max time between random sounds
-  cooldown_seconds: 5                   # Cooldown between manual plays
+  default_min_interval_minutes: 10            # Min time between random sounds
+  default_max_interval_minutes: 30            # Max time between random sounds
+  cooldown_seconds: 5                         # Cooldown between manual plays
 
 permissions:
-  control_commands_roles:               # Roles that can use pause/frequency/leave
+  control_commands_roles:                     # Roles that can use pause/frequency/leave
     - "Administrator"
     - "DJ"
+
+Notes:
+- You can use either snake_case (as above) or camelCase keys. Both are accepted.
+- If `soundboard.refresh_interval_minutes` is missing or <= 0, it is clamped to 1 minute and a warning is logged.
 ```
 
 ### Environment Variables
@@ -244,6 +246,12 @@ npm run dev
 ```bash
 npm run build
 npm start
+
+### Tests and CI
+
+- Run tests with coverage: `npm test`
+- Watch mode: `npm run test:watch`
+- GitHub Actions: CI workflow runs lint, build, tests on Node 18/20/22; CodeQL security analysis is enabled.
 ```
 
 ## Deployment
@@ -320,6 +328,12 @@ npm start
 - Use the `--guild YOUR_GUILD_ID` flag during development for instant registration
 - Global commands can take up to 1 hour to propagate
 
+### Warning: TimeoutNaNWarning / very frequent cache refreshes
+
+- Cause: `config.yaml` used unrecognized keys (e.g., snake_case without normalization) or set `soundboard.refresh_interval_minutes` to 0, which previously caused the refresh loop to run too fast.
+- Fixes in code: config loader normalizes snake_case -> camelCase and clamps refresh interval to a minimum of 1 minute.
+- What to do: Ensure your `config.yaml` has either camelCase keys or the snake_case ones shown above, and set a sensible refresh interval (e.g., 5–10 minutes).
+
 ## Contributing
 
 This is a personal project for fun with friends, but contributions are welcome!
@@ -339,6 +353,3 @@ MIT License - See LICENSE file for details
 - Built with [discord.js](https://github.com/discordjs/discord.js)
 - Inspired by friends who wanted more chaos in voice chat
 
-## Notes
-
-This project was migrated from Go to TypeScript to use the more stable and feature-rich discord.js library. The Go version had issues with the discordgo voice connection implementation.
